@@ -5,7 +5,7 @@ let isInLoop = false;
 
 // Definición de preguntas
 const questions = [
-    "¿Quieres pololear conmigo?",
+    "Entonces, ¿Quieres pololear conmigo?",
     "¿Estás Segura?",
     "¿En serio?",
     "¿Despues de todos estos años?"
@@ -37,6 +37,7 @@ const btnYes = document.getElementById('btnYes');
 const btnNo = document.getElementById('btnNo');
 const questionCard = document.getElementById('questionCard');
 const celebrationSound = document.getElementById('celebrationSound');
+const polaroidsContainer = document.querySelector('.polaroids-container');
 
 // Función para cambiar de pregunta con transición suave
 function changeQuestion(newQuestion) {
@@ -133,8 +134,10 @@ btnYes.addEventListener('click', () => {
     if (currentQuestion === 3 || isInLoop) {
         // "¿Despues de todos estos años?" o cualquier pregunta del loop
         // Ir a una pregunta aleatoria del loop
-        // Invertir fondo cuando se elige SI en el loop
+        // Invertir fondo y activar modo negativo cuando se elige SI en el loop
         document.body.classList.add('inverted');
+        questionCard.classList.add('negative');
+        if (polaroidsContainer) polaroidsContainer.classList.add('negative');
         const randomQuestion = getRandomLoopQuestion();
         changeQuestion(randomQuestion);
         return;
@@ -145,8 +148,10 @@ btnYes.addEventListener('click', () => {
 btnNo.addEventListener('click', () => {
     if (currentQuestion === 0) {
         // Primera pregunta - NO -> "¿Estás Segura?"
-        // Invertir fondo cuando se elige NO en la primera pregunta
+        // Invertir fondo y activar modo negativo cuando se elige NO en la primera pregunta
         document.body.classList.add('inverted');
+        questionCard.classList.add('negative');
+        if (polaroidsContainer) polaroidsContainer.classList.add('negative');
         currentQuestion = 1;
         changeQuestion(questions[currentQuestion]);
         return;
@@ -154,8 +159,10 @@ btnNo.addEventListener('click', () => {
     
     if (currentQuestion === 1) {
         // "¿Estás Segura?" - NO -> volver a la primera pregunta
-        // Restaurar fondo normal
+        // Restaurar fondo normal y quitar modo negativo
         document.body.classList.remove('inverted');
+        questionCard.classList.remove('negative');
+        if (polaroidsContainer) polaroidsContainer.classList.remove('negative');
         currentQuestion = 0;
         changeQuestion(questions[currentQuestion]);
         return;
@@ -163,8 +170,10 @@ btnNo.addEventListener('click', () => {
     
     if (currentQuestion === 2) {
         // "¿En serio?" - NO -> volver a la primera pregunta
-        // Restaurar fondo normal
+        // Restaurar fondo normal y quitar modo negativo
         document.body.classList.remove('inverted');
+        questionCard.classList.remove('negative');
+        if (polaroidsContainer) polaroidsContainer.classList.remove('negative');
         currentQuestion = 0;
         changeQuestion(questions[currentQuestion]);
         return;
@@ -172,8 +181,10 @@ btnNo.addEventListener('click', () => {
     
     if (currentQuestion === 3 || isInLoop) {
         // "¿Despues de todos estos años?" o cualquier pregunta del loop - NO -> volver a la primera pregunta
-        // Restaurar fondo normal
+        // Restaurar fondo normal y quitar modo negativo
         document.body.classList.remove('inverted');
+        questionCard.classList.remove('negative');
+        if (polaroidsContainer) polaroidsContainer.classList.remove('negative');
         currentQuestion = 0;
         isInLoop = false;
         changeQuestion(questions[currentQuestion]);
