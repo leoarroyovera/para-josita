@@ -337,5 +337,62 @@ function activatePolaroidsJumping() {
     });
 }
 
+// Función para crear decoración de corazones en la parte inferior
+function createHeartsDecoration() {
+    const heartsContainer = document.getElementById('heartsDecoration');
+    if (!heartsContainer) return;
+    
+    // Número de corazones a crear (aumentado para cubrir toda la pantalla)
+    const isMobile = window.innerWidth <= 768;
+    const numHearts = isMobile ? 80 : 120;
+    
+    // Obtener dimensiones del contenedor
+    const containerHeight = window.innerHeight;
+    const containerWidth = window.innerWidth;
+    
+    for (let i = 0; i < numHearts; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'decorative-heart';
+        
+        const img = document.createElement('img');
+        img.src = 'corazon_base.png';
+        img.alt = 'Corazón decorativo';
+        heart.appendChild(img);
+        
+        // Tamaño aleatorio (algunos más grandes para cubrir más área)
+        const sizeVariation = Math.random();
+        const size = isMobile 
+            ? (sizeVariation < 0.3 ? Math.random() * 60 + 40 : Math.random() * 40 + 20)  // 40-100px o 20-60px en móvil
+            : (sizeVariation < 0.3 ? Math.random() * 80 + 60 : Math.random() * 50 + 30); // 60-140px o 30-80px en desktop
+        
+        heart.style.width = size + 'px';
+        heart.style.height = size + 'px';
+        
+        // Posición aleatoria horizontal
+        heart.style.left = Math.random() * 100 + '%';
+        
+        // Posición vertical aleatoria en toda la pantalla
+        heart.style.top = Math.random() * containerHeight + 'px';
+        
+        // Rotación aleatoria limitada a máximo 90 grados (-45 a +45 para que no se vean invertidos)
+        const rotation = (Math.random() * 90) - 45; // Entre -45 y +45 grados
+        heart.style.transform = `rotate(${rotation}deg)`;
+        
+        // Algunos corazones tienen efecto de latido (30% de probabilidad)
+        if (Math.random() < 0.3) {
+            heart.classList.add('beating');
+            // Delay aleatorio para que no todos laten al mismo tiempo
+            heart.style.setProperty('--beat-delay', Math.random() * 2 + 's');
+        }
+        
+        heartsContainer.appendChild(heart);
+    }
+}
+
+// Crear decoración de corazones al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    createHeartsDecoration();
+});
+
 // Las polaroids se animan automáticamente con CSS, no se necesita JavaScript adicional
 
