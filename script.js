@@ -13,9 +13,22 @@ const questions = [
 
 // Últimas 3 preguntas para el loop
 const loopQuestions = [
-    "¿Estás Segura?",
-    "¿En serio?",
-    "¿Despues de todos estos años?"
+    "¿Acaso soy muy gordo para ti?",
+    "¿Acaso soy muy feo para ti?",
+    "¿Acaso soy demasiado hermoso para ti?",
+    "¿Acaso soy muy blanco para ti?",
+    "¿Acaso soy muy pobre para ti?",
+    "¿Es porque no soy Luksic?",
+    "¿Es porque no me parezco a Roman Reigns?",
+    "¿Es porque no soy tan alto como tú?",
+    "¿Es porque no soy tan guapo como tú?",
+    "¿Es porque no soy tan inteligente como tú?",
+    "¿Es porque no soy tan rico como tú?",
+    "¿Es porque no soy tan fuerte como tú?",
+    "¿Es porque no soy tan inteligente como tú?",
+    "¿Es porque no soy tan rico como tú?",
+    "¿Es porque no soy tan fuerte como tú?",
+    "¿Es porque no huelo a poto como tú?"
 ];
 
 // Elementos del DOM
@@ -120,6 +133,8 @@ btnYes.addEventListener('click', () => {
     if (currentQuestion === 3 || isInLoop) {
         // "¿Despues de todos estos años?" o cualquier pregunta del loop
         // Ir a una pregunta aleatoria del loop
+        // Invertir fondo cuando se elige SI en el loop
+        document.body.classList.add('inverted');
         const randomQuestion = getRandomLoopQuestion();
         changeQuestion(randomQuestion);
         return;
@@ -130,6 +145,8 @@ btnYes.addEventListener('click', () => {
 btnNo.addEventListener('click', () => {
     if (currentQuestion === 0) {
         // Primera pregunta - NO -> "¿Estás Segura?"
+        // Invertir fondo cuando se elige NO en la primera pregunta
+        document.body.classList.add('inverted');
         currentQuestion = 1;
         changeQuestion(questions[currentQuestion]);
         return;
@@ -137,6 +154,8 @@ btnNo.addEventListener('click', () => {
     
     if (currentQuestion === 1) {
         // "¿Estás Segura?" - NO -> volver a la primera pregunta
+        // Restaurar fondo normal
+        document.body.classList.remove('inverted');
         currentQuestion = 0;
         changeQuestion(questions[currentQuestion]);
         return;
@@ -144,6 +163,8 @@ btnNo.addEventListener('click', () => {
     
     if (currentQuestion === 2) {
         // "¿En serio?" - NO -> volver a la primera pregunta
+        // Restaurar fondo normal
+        document.body.classList.remove('inverted');
         currentQuestion = 0;
         changeQuestion(questions[currentQuestion]);
         return;
@@ -151,6 +172,8 @@ btnNo.addEventListener('click', () => {
     
     if (currentQuestion === 3 || isInLoop) {
         // "¿Despues de todos estos años?" o cualquier pregunta del loop - NO -> volver a la primera pregunta
+        // Restaurar fondo normal
+        document.body.classList.remove('inverted');
         currentQuestion = 0;
         isInLoop = false;
         changeQuestion(questions[currentQuestion]);
@@ -163,42 +186,5 @@ celebrationSound.addEventListener('error', (e) => {
     console.log('El archivo de audio no se encontró. Asegúrate de tener celebration.mp3 en la carpeta.');
 });
 
-// Carousel infinito
-const carouselTrack = document.getElementById('carouselTrack');
-let currentSlide = 0;
-const totalSlides = 7; // Número de fotos originales
-const slideWidth = 100; // Porcentaje
-
-function moveCarousel() {
-    currentSlide++;
-    
-    // Si llegamos al final de las fotos originales, resetear sin transición
-    if (currentSlide >= totalSlides) {
-        // Pausar la transición
-        carouselTrack.style.transition = 'none';
-        currentSlide = 0;
-        carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
-        
-        // Forzar reflow
-        void carouselTrack.offsetWidth;
-        
-        // Restaurar transición
-        carouselTrack.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-    }
-    
-    carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
-}
-
-// Iniciar carousel automático
-let carouselInterval = setInterval(moveCarousel, 3000); // Cambiar cada 3 segundos
-
-// Pausar carousel al hacer hover
-const carouselContainer = document.querySelector('.carousel-container');
-carouselContainer.addEventListener('mouseenter', () => {
-    clearInterval(carouselInterval);
-});
-
-carouselContainer.addEventListener('mouseleave', () => {
-    carouselInterval = setInterval(moveCarousel, 3000);
-});
+// Las polaroids se animan automáticamente con CSS, no se necesita JavaScript adicional
 
