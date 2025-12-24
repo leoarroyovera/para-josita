@@ -284,7 +284,7 @@ body::after {
 .polaroids-container {
     width: 100vw;
     position: absolute;
-    top: 20%;
+    
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -381,7 +381,8 @@ body::after {
 
 @media (max-width: 480px) {
     .polaroids-container {
-        height: 250px;
+       
+        padding-top: 50px;
     }
     
     .polaroid {
