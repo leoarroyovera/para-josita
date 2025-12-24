@@ -373,3 +373,40 @@ body::after {
     }
 }
 
+/* Imagen de pena */
+.pena-image {
+    position: fixed;
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    max-width: 200px;
+    max-height: 200px;
+    transition: opacity 0.5s ease, transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 3s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pena-image.show {
+    animation: penaFloat 2s ease-in-out infinite;
+}
+
+@keyframes penaFloat {
+    0%, 100% {
+        transform: translate(-50%, -50%) translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translate(-50%, -50%) translateY(-10px) rotate(-5deg);
+    }
+    50% {
+        transform: translate(-50%, -50%) translateY(-20px) rotate(0deg);
+    }
+    75% {
+        transform: translate(-50%, -50%) translateY(-10px) rotate(5deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .pena-image {
+        max-width: 150px;
+        max-height: 150px;
+    }
+}
+
