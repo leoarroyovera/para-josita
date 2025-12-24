@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres pololear conmigo?</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="question-container" id="questionContainer">
+            <div class="question-card" id="questionCard">
+                <h1 class="question" id="question">¿Quieres pololear conmigo?</h1>
+                <div class="buttons-container">
+                    <button class="btn btn-yes" id="btnYes">SI</button>
+                    <button class="btn btn-no" id="btnNo">NO</button>
+                </div>
+            </div>
+        </div>
+        <canvas id="confettiCanvas"></canvas>
+    </div>
+    <audio id="celebrationSound" preload="auto">
+        <source src="celebration.mp3" type="audio/mpeg">
+    </audio>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
