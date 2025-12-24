@@ -163,3 +163,42 @@ celebrationSound.addEventListener('error', (e) => {
     console.log('El archivo de audio no se encontró. Asegúrate de tener celebration.mp3 en la carpeta.');
 });
 
+// Carousel infinito
+const carouselTrack = document.getElementById('carouselTrack');
+let currentSlide = 0;
+const totalSlides = 7; // Número de fotos originales
+const slideWidth = 100; // Porcentaje
+
+function moveCarousel() {
+    currentSlide++;
+    
+    // Si llegamos al final de las fotos originales, resetear sin transición
+    if (currentSlide >= totalSlides) {
+        // Pausar la transición
+        carouselTrack.style.transition = 'none';
+        currentSlide = 0;
+        carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+        
+        // Forzar reflow
+        void carouselTrack.offsetWidth;
+        
+        // Restaurar transición
+        carouselTrack.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    }
+    
+    carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+}
+
+// Iniciar carousel automático
+let carouselInterval = setInterval(moveCarousel, 3000); // Cambiar cada 3 segundos
+
+// Pausar carousel al hacer hover
+const carouselContainer = document.querySelector('.carousel-container');
+carouselContainer.addEventListener('mouseenter', () => {
+    clearInterval(carouselInterval);
+});
+
+carouselContainer.addEventListener('mouseleave', () => {
+    carouselInterval = setInterval(moveCarousel, 3000);
+});
+
