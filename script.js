@@ -4,6 +4,7 @@ let hasAccepted = false;
 let isInLoop = false;
 let firstNegativeResponse = true; // Flag para la primera respuesta negativa
 let penaInterval = null; // Intervalo para la aparición continua de la imagen de pena
+let confettiInterval = null; // Intervalo para confeti continuo
 
 // Definición de preguntas
 const questions = [
@@ -38,9 +39,11 @@ const questionElement = document.getElementById('question');
 const btnYes = document.getElementById('btnYes');
 const btnNo = document.getElementById('btnNo');
 const questionCard = document.getElementById('questionCard');
+const buttonsContainer = document.querySelector('.buttons-container');
 const celebrationSound = document.getElementById('celebrationSound');
 const polaroidsContainer = document.querySelector('.polaroids-container');
 const penaImage = document.getElementById('penaImage');
+const heartImage = document.getElementById('heartImage');
 
 // Función para cambiar de pregunta con transición suave
 function changeQuestion(newQuestion) {
@@ -59,23 +62,15 @@ function changeQuestion(newQuestion) {
 }
 
 // Función para lanzar confeti
-function launchConfetti() {
-    const duration = 3000;
-    const animationEnd = Date.now() + duration;
+function launchConfetti(infinite = false) {
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
 
     function randomInRange(min, max) {
         return Math.random() * (max - min) + min;
     }
 
-    const interval = setInterval(function() {
-        const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-            return clearInterval(interval);
-        }
-
-        const particleCount = 50 * (timeLeft / duration);
+    function launchConfettiBurst() {
+        const particleCount = 50;
 
         confetti({
             ...defaults,
@@ -87,7 +82,42 @@ function launchConfetti() {
             particleCount,
             origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
         });
-    }, 250);
+    }
+
+    if (infinite) {
+        // Confeti continuo indefinido
+        if (confettiInterval) {
+            clearInterval(confettiInterval);
+        }
+        
+        // Lanzar confeti cada 250ms indefinidamente
+        confettiInterval = setInterval(launchConfettiBurst, 250);
+    } else {
+        // Confeti temporal (3 segundos)
+        const duration = 3000;
+        const animationEnd = Date.now() + duration;
+
+        const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            const particleCount = 50 * (timeLeft / duration);
+
+            confetti({
+                ...defaults,
+                particleCount,
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+            });
+            confetti({
+                ...defaults,
+                particleCount,
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+            });
+        }, 250);
+    }
 }
 
 // Función para reproducir sonido de celebración
@@ -109,13 +139,20 @@ btnYes.addEventListener('click', () => {
     if (currentQuestion === 0 && !hasAccepted) {
         // Primera pregunta - respuesta SI
         hasAccepted = true;
-        launchConfetti();
+        launchConfetti(true); // Confeti indefinido
         playCelebrationSound();
-        questionCard.classList.add('celebrating');
+        
+        // Ocultar pregunta y botones con animación
+        questionCard.classList.add('hide');
+        if (buttonsContainer) buttonsContainer.classList.add('hide');
+        
+        // Mostrar corazón con animación después de que desaparezca la pregunta
         setTimeout(() => {
-            questionCard.classList.remove('celebrating');
-        }, 1500);
-        // Mantener la misma pregunta después de la celebración
+            if (heartImage) {
+                heartImage.classList.add('show');
+            }
+        }, 400);
+        
         return;
     }
     
