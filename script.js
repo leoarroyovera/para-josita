@@ -142,6 +142,9 @@ btnYes.addEventListener('click', () => {
         launchConfetti(true); // Confeti indefinido
         playCelebrationSound();
         
+        // Activar animación de salto en las polaroids
+        activatePolaroidsJumping();
+        
         // Ocultar pregunta y botones con animación
         questionCard.classList.add('hide');
         if (buttonsContainer) buttonsContainer.classList.add('hide');
@@ -321,6 +324,17 @@ function stopPenaAnimation() {
         penaImage.classList.remove('show');
         penaImage.style.opacity = '0';
     }
+}
+
+// Función para activar animación de salto en las polaroids
+function activatePolaroidsJumping() {
+    const polaroids = document.querySelectorAll('.polaroid');
+    polaroids.forEach((polaroid, index) => {
+        // Agregar delay aleatorio diferente para cada polaroid
+        const randomDelay = Math.random() * 0.5; // Delay entre 0 y 0.5 segundos
+        polaroid.style.setProperty('--jump-delay', randomDelay + 's');
+        polaroid.classList.add('jumping');
+    });
 }
 
 // Las polaroids se animan automáticamente con CSS, no se necesita JavaScript adicional
